@@ -26,7 +26,7 @@ const User = sequelize.define("User", {
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: { len: [8, 100] },
+        validate: { len: [6, 100] },
     },
 });
 
