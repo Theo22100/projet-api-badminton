@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require("sequelize");
-// const seedInitialData = require('./seeders/seed_initial_data'); 
+const seed_initial_data = require('./seeders/seed_initial_data');
 
 // Initialisation Sequelize
 const sequelize = new Sequelize(
@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || "localhost",
         dialect: "mysql",
-        logging: false, // Désactiver logs SQL
+        logging: false, 
     }
 );
 
@@ -21,12 +21,12 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { len: [3, 50] }, // Longueur entre 3 et 50 char
+        validate: { len: [3, 50] },
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: { len: [8, 100] }, // Minimum 8 char
+        validate: { len: [8, 100] },
     },
 });
 
@@ -37,7 +37,7 @@ const Terrain = sequelize.define("Terrain", {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { len: [1, 10] }, // Longueur entre 1 et 10 char
+        validate: { len: [1, 10] },
     },
     isAvailable: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
@@ -48,7 +48,7 @@ const Reservation = sequelize.define("Reservation", {
     timeSlot: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: { 
+        validate: {
             is: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, // Format HH:mm
         },
     },
@@ -64,12 +64,19 @@ Reservation.belongsTo(Terrain, { foreignKey: "terrainId" });
 async function initializeDatabase() {
     try {
         await sequelize.authenticate();
-        console.log("Connection has been established successfully.");
+        console.log("Connection to the database has been established successfully.");
+
+        // Synchroniser les modèles avec la BDD
+        await sequelize.sync({ alter: true }); // MAJ les tables sans suppression
+        console.log("Database tables synchronized successfully.");
+
+        // Charger seeders avec modèles
+        await seed_initial_data({ User, Terrain });
     } catch (error) {
-        console.error("Unable to connect to the database:", error);
+        console.error("Unable to connect to the database or synchronize:", error);
     }
 }
-initializeDatabase(); // tester la connexion
+initializeDatabase(); 
 
 // Export modèles et Sequelize
 module.exports = {

@@ -1,32 +1,31 @@
-const { User, Terrain, sequelize } = require("../orm");
-
-module.exports = async function seedInitialData() {
+module.exports = async function seedInitialData({ User, Terrain }) {
     try {
         console.log("Starting seeders...");
-        
-        // Synchronisation bdd
-        await sequelize.sync({ force: true });
 
-        // Seed des utilisateurs
-        await User.bulkCreate([
-            { pseudo: "admybad", password: "P4$$w0rd" },
-            { pseudo: "player1", password: "password123" },
-            { pseudo: "player2", password: "password456" },
-        ]);
+        // Vérification et insertion des utilisateurs si nécessaire
+        const users = await User.findAll();
+        if (users.length === 0) {
+            await User.bulkCreate([
+                { pseudo: "admybad", password: "P4$$w0rd" },
+                { pseudo: "player1", password: "password123" },
+                { pseudo: "player2", password: "password456" },
+            ]);
+        }
 
-        // Seed des terrains
-        await Terrain.bulkCreate([
-            { name: "A" },
-            { name: "B", isAvailable: false },
-            { name: "C" },
-            { name: "D" },
-        ]);
+        // Vérification et insertion des terrains si nécessaire
+        const terrains = await Terrain.findAll();
+        if (terrains.length === 0) {
+            await Terrain.bulkCreate([
+                { name: "A" },
+                { name: "B", isAvailable: false },
+                { name: "C" },
+                { name: "D" },
+            ]);
+        }
 
         console.log("Seeders completed successfully!");
     } catch (error) {
-        console.error("Seeding failed:", error);
-        throw error; // Propager l'erreur si nécessaire
-    } finally {
-        await sequelize.close();
+        console.error("Error during seeding:", error);
+        throw error; 
     }
 };
