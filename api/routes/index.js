@@ -3,10 +3,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  // #swagger.summary = "Page d'accueil"
+  /* 
+  #swagger.summary = "Page d'accueil"
+  #swagger.tags = ['Home']
+  */
 
   try {
-    res.send('API Badminton est lancé !');
+    res.send('API Badminton est lancé!');
   } catch (error) {
     console.error('Error: ', error.message);
     res.status(500).json({
