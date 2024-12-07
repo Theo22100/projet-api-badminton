@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
-    #swagger.summary = 'Récupère un terrain spécifique'
+    #swagger.summary = 'Récupère les informations d'un terrain spécifique'
     #swagger.description = 'Retourne les informations d’un terrain spécifique basé sur son ID.'
     #swagger.parameters['id'] = {
         in: 'path',
@@ -72,7 +72,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id/availability", async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
     #swagger.summary = 'Met à jour la disponibilité d’un terrain'
