@@ -6,7 +6,7 @@ module.exports = async function seedInitialData({ User, Terrain }) {
         const users = await User.findAll();
         if (users.length === 0) {
             await User.bulkCreate([
-                { pseudo: "admybad", password: "P4$$w0rd", isAdmin: true},
+                { pseudo: "admybad", password: "astrongpassword", isAdmin: true},
                 { pseudo: "player1", password: "password123" },
                 { pseudo: "player2", password: "password456" },
             ]);
