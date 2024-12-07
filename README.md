@@ -1,80 +1,53 @@
 
 # Badminton Reservation API
 
-This project is a web API for managing badminton court reservations. It supports both RESTful endpoints and a GraphQL query for retrieving available slots.
+Mettre explication projet
 
-## Features
+## Fonctionnalités
 
-- Manage users (adhérents and admin).
-- Reserve and cancel reservations for badminton courts.
-- Temporarily disable courts due to maintenance or weather issues.
-- Retrieve available slots via GraphQL.
+Mettre résumé des features
+
+## Disctionnaires de données
+
+
 
 ## Installation
 
-1. Clone the repository:
+1. Clone le repo :
    ```bash
-   docker-compose up --build
-
+   git clone <url>
    ```
-2. Install dependencies:
-   ```bash
-   docker-compose up --build
-   docker exec -it <container_name> npm run migrate
-   docker exec -it <container_name> npm run seed
-
-   ```
-3. Configure environment variables:
+2. Copier le .env.dist et changer le .env si besoin :
    ```bash
    cp .env.dist .env
    ```
-
-
-## Starting the Server
-
-1. Run database migrations and seeders:
+3. Lancer le Docker :
    ```bash
-   npm migrate
-   npm seed
+   docker compose watch
    ```
-2. Start the server:
+4. Tester connexion :
    ```bash
-   npm start
+   curl.exe -i http://localhost:5001
    ```
-3. The API will be available at `http://localhost:<port>`.
+## Swagger
+1. Swagger :
+   ```bash
+   docker exec -it projet-api-badminton-api npm run swagger-autogen
+   ```
+## Stopper
+1. Stopper :
+   ```bash
+   docker compose down
+   ```
+
+
+
 
 ## API Documentation
 
-### RESTful Endpoints
 
-#### Reservations
-- **GET /reservations**: Fetch all reservations.
-- **POST /reservations**: Create a new reservation.
-  - Request body:
-    ```json
-    {
-      "userId": 1,
-      "terrainId": 2,
-      "timeSlot": "10:00"
-    }
-    ```
 
-#### Terrains
-- **GET /terrains**: Fetch all available courts.
-- **PUT /terrains/:id**: Update a court's availability (admin only).
-  - Request body:
-    ```json
-    {
-      "isAvailable": false
-    }
-    ```
-
-### GraphQL
-
-#### Endpoint
-- URL: `http://localhost:<port>/graphql`
-
-#### Query Example
+#### GraphQL
 ```graphql
 query GetAvailableSlots {
   availableSlots(date: "2024-11-27", terrain: "A") {
@@ -84,10 +57,3 @@ query GetAvailableSlots {
 }
 ```
 
-## Testing
-
-Use tools like Postman or Apollo Studio to test RESTful endpoints and GraphQL queries.
-
-## License
-
-This project is for educational purposes only.

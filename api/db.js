@@ -1,24 +1,24 @@
 
 const { User, Terrain, Reservation } = require("./orm");
 
-// Fetch all reservations
+// Liste des réservations
 async function getReservations() {
     return await Reservation.findAll({
         include: [User, Terrain],
     });
 }
 
-// Add a new reservation
+// Ajouter nouvelle reservation
 async function addReservation(userId, terrainId, timeSlot) {
     return await Reservation.create({ userId, terrainId, timeSlot });
 }
 
-// Fetch available terrains
+// Liste terrains dispo
 async function getAvailableTerrains() {
     return await Terrain.findAll({ where: { isAvailable: true } });
 }
 
-// Mark a terrain as unavailable
+// Marquer un terrain comme disponible ou non
 async function setTerrainAvailability(terrainId, isAvailable) {
     const terrain = await Terrain.findByPk(terrainId);
     if (terrain) {

@@ -1,7 +1,8 @@
 require('dotenv').config();
 const { Sequelize, DataTypes } = require("sequelize");
+// const seedInitialData = require('./seeders/seed_initial_data'); 
 
-// Initialisation de Sequelize avec les variables d'environnement
+// Initialisation Sequelize
 const sequelize = new Sequelize(
     process.env.MYSQL_DATABASE,
     process.env.MYSQL_USER,
@@ -9,7 +10,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || "localhost",
         dialect: "mysql",
-        logging: false, // Désactiver les logs SQL pour un environnement propre
+        logging: false, // Désactiver logs SQL
     }
 );
 
@@ -20,12 +21,12 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { len: [3, 50] }, // Longueur entre 3 et 50 caractères
+        validate: { len: [3, 50] }, // Longueur entre 3 et 50 char
     },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: { len: [8, 100] }, // Minimum 8 caractères
+        validate: { len: [8, 100] }, // Minimum 8 char
     },
 });
 
@@ -36,7 +37,7 @@ const Terrain = sequelize.define("Terrain", {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { len: [1, 10] }, // Longueur entre 1 et 10 caractères
+        validate: { len: [1, 10] }, // Longueur entre 1 et 10 char
     },
     isAvailable: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
@@ -53,13 +54,13 @@ const Reservation = sequelize.define("Reservation", {
     },
 });
 
-// Relations entre les modèles
+// Relations modèles
 User.hasMany(Reservation, { foreignKey: "userId", onDelete: "CASCADE" });
 Reservation.belongsTo(User, { foreignKey: "userId" });
 Terrain.hasMany(Reservation, { foreignKey: "terrainId", onDelete: "CASCADE" });
 Reservation.belongsTo(Terrain, { foreignKey: "terrainId" });
 
-// Synchronisation de la base de données (optionnel pour démarrage rapide)
+// Synchronisation bdd
 async function initializeDatabase() {
     try {
         await sequelize.authenticate();
@@ -68,9 +69,9 @@ async function initializeDatabase() {
         console.error("Unable to connect to the database:", error);
     }
 }
-initializeDatabase(); // Appel à la fonction pour tester la connexion
+initializeDatabase(); // tester la connexion
 
-// Export des modèles et de Sequelize
+// Export modèles et Sequelize
 module.exports = {
     sequelize,
     User,

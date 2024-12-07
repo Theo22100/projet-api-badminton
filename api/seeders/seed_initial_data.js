@@ -1,11 +1,11 @@
 const { User, Terrain, sequelize } = require("../orm");
 
-(async () => {
+module.exports = async function seedInitialData() {
     try {
         console.log("Starting seeders...");
         
         // Synchronisation bdd
-        await sequelize.sync({ force: true }); 
+        await sequelize.sync({ force: true });
 
         // Seed des utilisateurs
         await User.bulkCreate([
@@ -17,7 +17,7 @@ const { User, Terrain, sequelize } = require("../orm");
         // Seed des terrains
         await Terrain.bulkCreate([
             { name: "A" },
-            { name: "B", isAvailable: false }, // Terrain B indisponible 
+            { name: "B", isAvailable: false },
             { name: "C" },
             { name: "D" },
         ]);
@@ -25,8 +25,8 @@ const { User, Terrain, sequelize } = require("../orm");
         console.log("Seeders completed successfully!");
     } catch (error) {
         console.error("Seeding failed:", error);
+        throw error; // Propager l'erreur si nécessaire
     } finally {
         await sequelize.close();
-        process.exit(); 
     }
-})();
+};
