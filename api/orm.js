@@ -28,6 +28,11 @@ const User = sequelize.define("User", {
         allowNull: false,
         validate: { len: [6, 100] },
     },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
 });
 
 // Modèle Terrain
