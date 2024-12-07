@@ -1,31 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const { User } = require('../orm'); 
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
   // #swagger.summary = "Page d'accueil"
 
   try {
-    
-    const users = await User.findAll({
-      attributes: ['pseudo'], 
-    });
-
-    // Mapper les résultats pour correspondre au format attendu
-    const formattedUsers = users.map(user => {
-      return {
-        pseudo: user.pseudo,
-      };
-    });
-
-    // Rendre la vue avec les données des utilisateurs
-    res.render('index', {
-      title: "Kit de développement RESTful Web API",
-      users: formattedUsers,
-    });
+    res.send('API Badminton est lancé !');
   } catch (error) {
-    console.error('Error fetching users: ', error.message);
+    console.error('Error: ', error.message);
     res.status(500).json({
       msg: "Nous rencontrons des difficultés, merci de réessayer plus tard.",
     });
