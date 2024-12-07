@@ -31,6 +31,47 @@ router.get("/", async (req, res) => {
 });
 
 
+router.get("/:id", async (req, res) => {
+    /* 
+    #swagger.tags = ['Terrains']
+    #swagger.summary = 'Récupère un terrain spécifique'
+    #swagger.description = 'Retourne les informations d’un terrain spécifique basé sur son ID.'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'integer',
+        description: 'ID du terrain à récupérer',
+        example: 1
+    }
+    #swagger.responses[200] = {
+        description: 'Informations du terrain',
+        schema: {
+            id: 1,
+            name: 'Terrain A',
+            isAvailable: true,
+            createdAt: '2024-01-01T00:00:00Z',
+            updatedAt: '2024-01-01T00:00:00Z'
+        }
+    }
+    #swagger.responses[404] = {
+        description: 'Terrain non trouvé',
+        schema: { error: 'Terrain not found' }
+    }
+    */
+    try {
+        const terrain = await Terrain.findByPk(req.params.id);
+        if (terrain) {
+            res.json(terrain);
+        } else {
+            res.status(404).json({ error: "Terrain not found" });
+        }
+    } catch (error) {
+        console.error('Error fetching terrain:', error);
+        res.status(500).json({ error: 'Erreur lors de la récupération du terrain' });
+    }
+});
+
+
 router.put("/:id", async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
