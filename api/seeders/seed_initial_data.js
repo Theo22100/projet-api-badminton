@@ -1,22 +1,23 @@
-
-const { User, Terrain, Reservation, sequelize } = require("../orm");
+const { User, Terrain, sequelize } = require("../orm");
 
 (async () => {
     try {
         console.log("Starting seeders...");
-        await sequelize.sync({ force: true }); // Ensure schema is in place
+        
+        // Synchronisation bdd
+        await sequelize.sync({ force: true }); 
 
-        // Seed users
-        const users = await User.bulkCreate([
+        // Seed des utilisateurs
+        await User.bulkCreate([
             { pseudo: "admybad", password: "P4$$w0rd" },
             { pseudo: "player1", password: "password123" },
             { pseudo: "player2", password: "password456" },
         ]);
 
-        // Seed terrains
-        const terrains = await Terrain.bulkCreate([
+        // Seed des terrains
+        await Terrain.bulkCreate([
             { name: "A" },
-            { name: "B", isAvailable: false },
+            { name: "B", isAvailable: false }, // Terrain B indisponible 
             { name: "C" },
             { name: "D" },
         ]);
@@ -25,6 +26,7 @@ const { User, Terrain, Reservation, sequelize } = require("../orm");
     } catch (error) {
         console.error("Seeding failed:", error);
     } finally {
-        process.exit();
+        await sequelize.close();
+        process.exit(); 
     }
 })();
