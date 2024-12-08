@@ -14,7 +14,21 @@ const doc = {
     },
     host: 'localhost:5001',                 // by default: 'localhost:3000'
     basePath: '',             // by default: '/'
-    schemes: ['http'],              // by default: ['http']
+    schemes: ['http'],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],              // by default: ['http']
     consumes: [],             // by default: ['application/json']
     produces: [],             // by default: ['application/json']
     tags: [ 
