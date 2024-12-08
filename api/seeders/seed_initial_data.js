@@ -1,4 +1,4 @@
-module.exports = async function seedInitialData({ User, Terrain }) {
+module.exports = async function seedInitialData({ User, Terrain, Reservation }) {
     try {
         console.log("Starting seeders...");
 
@@ -20,6 +20,18 @@ module.exports = async function seedInitialData({ User, Terrain }) {
                 { name: "B", isAvailable: false },
                 { name: "C" },
                 { name: "D" },
+            ]);
+        }
+
+        const reservations = await Reservation.findAll();
+        if (reservations.length === 0) {
+            // Récupération des utilisateurs et terrains
+            const user1 = await User.findOne({ where: { pseudo: "player1" } });
+            const terrainA = await Terrain.findOne({ where: { name: "A" } });
+
+            // Création de réservations
+            await Reservation.bulkCreate([
+                { userId: user1.id, terrainId: terrainA.id, timeSlot: "2022-01-01 10:00:00" },
             ]);
         }
 

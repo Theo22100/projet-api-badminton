@@ -76,7 +76,7 @@ async function initializeDatabase() {
         console.log("Database tables synchronized successfully.");
 
         // Charger seeders avec modèles
-        await seed_initial_data({ User, Terrain });
+        await seed_initial_data({ User, Terrain, Reservation });
     } catch (error) {
         console.error("Unable to connect to the database or synchronize:", error);
     }
