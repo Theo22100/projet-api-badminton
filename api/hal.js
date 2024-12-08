@@ -45,6 +45,79 @@ function mapUserResourceObject(userData, baseURL) {
     }
 }
 
+function mapTerrainResourceObject(terrainData) {
+
+    //La liste des users
+    return {
+
+        "_links": {
+            "self": halLinkObject('/terrains/' + terrainData.id),
+            "terrains": halLinkObject('/terrains')
+        },
+
+        name: terrainData.name,
+        id : terrainData.id,
+        isAvailable: terrainData.isAvailable,
+        createdAt: terrainData.createdAt,
+        updatedAt: terrainData.updatedAt
+        
+    }
+}
+
+function mapReservationResourceObject(reservationData) {
+
+    //La liste des users
+    return {
+
+        "_links": {
+            "self": halLinkObject('/reservations/' + reservationData.id),
+            "reservations": halLinkObject('/reservations')
+        },
+
+        id: reservationData.id,
+        userId: reservationData.userId,
+        terrainId: reservationData.terrainId,
+        date: reservationData.date,
+        startTime: reservationData.startTime,
+        endTime: reservationData.endTime,
+        createdAt: reservationData.createdAt,
+        
+    }
+}
+
+function mapReservationListToRessourceObject(reservationData) {
+
+    const reservations = reservationData.map(reservation => mapReservationResourceObject(reservation));
+
+    //la liste des reservations
+    return {
+        "_links": {
+            "self": halLinkObject('/reservations')
+        },
+        "_embedded": {
+            "reservations": reservations
+        }
+        
+    }
+
+}
+
+function mapTerrainListToRessourceObject(terrainData) {
+    
+        const terrains = terrainData.map(terrain => mapTerrainResourceObject(terrain));
+    
+        //La liste des terrains
+        return {
+            "_links": {
+                "self": halLinkObject('/terrains')
+            },
+            "_embedded": {
+                "terrains": terrains
+            }
+            
+        }
+    }
+
 function mapUserListToRessourceObject(userData) {
 
     const users = userData.map(user => mapUserResourceObject(user));
@@ -63,4 +136,4 @@ function mapUserListToRessourceObject(userData) {
 }
 
 
-module.exports = { halLinkObject, mapUserResourceObject, mapUserListToRessourceObject };
+module.exports = { halLinkObject, mapUserResourceObject, mapUserListToRessourceObject, mapTerrainResourceObject, mapTerrainListToRessourceObject, mapReservationResourceObject, mapReservationListToRessourceObject };

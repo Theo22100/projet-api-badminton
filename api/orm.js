@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST || "localhost",
         dialect: "mysql",
-        logging: false, 
+        logging: false,
     }
 );
 
@@ -49,13 +49,26 @@ const Terrain = sequelize.define("Terrain", {
 
 // Modèle Réservation
 const Reservation = sequelize.define("Reservation", {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    timeSlot: {
-        type: DataTypes.STRING,
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    date: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
-        validate: {
-            is: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, // Format HH:mm
-        },
+    },
+    startTime: {
+        type: DataTypes.TIME,
+        allowNull: false,
+    },
+    endTime: {
+        type: DataTypes.TIME,
+        allowNull: false,
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
     },
 });
 
@@ -81,7 +94,7 @@ async function initializeDatabase() {
         console.error("Unable to connect to the database or synchronize:", error);
     }
 }
-initializeDatabase(); 
+initializeDatabase();
 
 // Export modèles et Sequelize
 module.exports = {
