@@ -1,13 +1,16 @@
 const express = require("express");
 const { Terrain } = require("../orm");
 const router = express.Router();
+const authenticateToken = require('../middleware');
+const isAdmin = require('../middleware');
 
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
     #swagger.summary = 'Liste tous les terrains'
     #swagger.description = 'Retourne une liste de tous les terrains disponibles dans la base de données.'
+    #swagger.security = [{ BearerAuth: [] }]
     #swagger.responses[200] = {
         description: 'Liste des terrains',
         schema: [
@@ -72,7 +75,7 @@ router.get("/:id", async (req, res) => {
 });
 
 
-router.put("/:id/availability", async (req, res) => {
+router.put("/:id/availability", isAdmin, async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
     #swagger.summary = 'Met à jour la disponibilité d’un terrain'

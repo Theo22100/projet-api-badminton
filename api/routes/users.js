@@ -3,7 +3,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const { User } = require('../orm');
+const authenticateToken = require('../middleware');
 const JWT_SECRET = process.env.JWT_SECRET;
+const { mapUserResourceObject, mapUserListToRessourceObject } = require('../hal');
+
 
 router.post('/', async (req, res) => {
     /* 
@@ -64,7 +67,7 @@ router.post('/', async (req, res) => {
 
 
 
-router.get('/', async (req, res) => {
+router.get('/',authenticateToken, async (req, res) => {
     /* 
     #swagger.tags = ['Users']
     #swagger.summary = 'Liste des utilisateurs'
@@ -93,7 +96,7 @@ router.get('/', async (req, res) => {
         const users = await User.findAll({
             attributes: ['id', 'pseudo', 'createdAt', 'updatedAt'] // Ne pas retourner le mot de passe
         });
-        res.status(200).json(users);
+        res.status(200).json(mapUserListToRessourceObject(users));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
