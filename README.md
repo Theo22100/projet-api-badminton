@@ -47,6 +47,9 @@ Mettre résumé des features
 | `password`        | String            | 128 caractères SHA 512       | Non nul                        | Mot de passe hashé de l'utilisateur. |
 | `isAdmin`         | Boolean           | 1 bit                        | Non nul                        | Indique si l'utilisateur est administrateur. |
 | `id_terrain`      | Integer           | 4 octets (32 bits)           | Primary key, auto-incrémentée  | Identifiant unique du terrain.   |
+| `name`            | String            | 255 caractères               | Unique, non nul                | Nom du terrain.                  | 
+| `iAvaillable`     | Boolean           | 1 bit                        | Non nul                        | Disponibilité du terrain.        |
+| `id_reservation`  | Integer           | 4 octets (32 bits)           | Primary key, auto-incremente   | Identifiant unique de la réservation. |
 
 ---
 
