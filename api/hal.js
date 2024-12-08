@@ -35,7 +35,7 @@ function mapUserResourceObject(userData, baseURL) {
     return {
 
         "_links": {
-            "self": halLinkObject('/users/$(userData.id)'),
+            "self": halLinkObject('/users/' + userData.id),
             "users": halLinkObject('/users')
         },
 
