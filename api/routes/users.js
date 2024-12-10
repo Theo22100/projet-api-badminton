@@ -27,31 +27,6 @@ router.post('/', async (req, res) => {
             password: 'P4$$w0rd'
         }
     }
-
-    #swagger.responses[201] = {
-        description: 'Utilisateur créé avec succès',
-        content: {
-            'application/json': {
-                schema: {
-                    id: { type: 'integer', example: 1 },
-                    pseudo: { type: 'string', example: 'player1' },
-                    createdAt: { type: 'string', format: 'date-time', example: '2024-01-01T12:00:00.000Z' },
-                    updatedAt: { type: 'string', format: 'date-time', example: '2024-01-01T12:00:00.000Z' }
-                }
-            }
-        }
-    }
-
-    #swagger.responses[400] = {
-        description: 'Erreur : pseudo déjà utilisé ou validation échouée',
-        content: {
-            'application/json': {
-                schema: {
-                    error: { type: 'string', example: 'Pseudo déjà utilisé' }
-                }6
-            }
-        }
-    }
     */
     const { pseudo, password } = req.body;
     // RegExp simple pour vérifier que le mot de passe contient au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre
@@ -86,25 +61,6 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
     #swagger.summary = 'Liste des utilisateurs'
     #swagger.security = [{ BearerAuth: [] }]
     #swagger.description = 'Retourne la liste de tous les utilisateurs enregistrés.'
-    #swagger.responses[200] = {
-        description: 'Liste des utilisateurs récupérée avec succès',
-        content: {
-            'application/json': {
-                schema: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'integer', example: 1 },
-                            pseudo: { type: 'string', example: 'player1' },
-                            createdAt: { type: 'string', format: 'date-time', example: '2024-01-01T12:00:00.000Z' },
-                            updatedAt: { type: 'string', format: 'date-time', example: '2024-01-01T12:00:00.000Z' }
-                        }
-                    }
-                }
-            }
-        }
-    }
     */
     try {
         const users = await User.findAll({
@@ -132,32 +88,6 @@ router.post('/login', async (req, res) => {
         schema: {
             pseudo: 'admybad',
             password: 'astrongpassword'
-        }
-    }
-    #swagger.responses[200] = {
-        description: 'Connexion réussie',
-        content: {
-            'application/json': {
-                schema: {
-                    type: 'object',
-                    properties: {
-                        token: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }
-                    }
-                }
-            }
-        }
-    }
-    #swagger.responses[401] = {
-        description: 'Pseudo ou mot de passe incorrect',
-        content: {
-            'application/json': {
-                schema: { 
-                    type: 'object',
-                    properties: {
-                        error: { type: 'string', example: 'Pseudo ou mot de passe incorrect' }
-                    }
-                }
-            }
         }
     }
     */
