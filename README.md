@@ -138,9 +138,9 @@ Elle inclut des fonctionnalités pour :
 - Un utilisateur peut réserver seulement un terrain entre 10h et 22h du lundi au samedi. (Le créneau ne doit pas dépasser 22h)
 
 
+---
 
-
-#### **GraphQL**
+## GraphQL
 
 L'API GraphQL est accessible à l'adresse suivante :  
 [http://localhost:5001/graphql](http://localhost:5001/graphql)
