@@ -128,10 +128,15 @@ router.delete('/:id', authenticateToken,  async (req, res) => {
     // recupere l'id de l'utilisateur connecté 
     const idUser = req.user.id;
     try {
-        if (Reservation.userId !== idUser || !req.user.isAdmin) {
+        const reservation = await Reservation.findByPk(id);
+        console.log('>>>>>>>>>>>>>>>>>>>> idUser', idUser);
+        console.log('>>>>>>>>>>>>>>>>>>>> user id reservation ', reservation.userId);
+        console.log('>>>>>>>>>>>>>>>>>>>> id Reservation', id);
+        console.log('>>>>>>>>>>>>>>>>>>>> User auth', req.user);
+        console.log('>>>>>>>>>>>>>>>>>>>> isAdmin', req.user.isAdmin);
+        if (reservation.userId !== idUser || !req.user.isAdmin) {
             return res.status(403).json({ error: 'Accès refusé' });
         }
-        const reservation = await Reservation.findByPk(id);
         if (!reservation) {
             return res.status(404).json({ error: 'Réservation non trouvée' });
         }
