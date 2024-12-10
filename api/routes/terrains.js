@@ -38,8 +38,8 @@ router.get("/", authenticateToken, async (req, res) => {
 router.get("/:id", async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
-    #swagger.summary = 'Récupère les informations d'un terrain spécifique'
-    #swagger.description = 'Retourne les informations d’un terrain spécifique basé sur son ID.'
+    #swagger.summary = 'Récupère les informations pour un terrain spécifique'
+    #swagger.description = 'Retourne les informations pour un terrain spécifique basé sur son ID.'
     #swagger.parameters['id'] = {
         in: 'path',
         required: true,
