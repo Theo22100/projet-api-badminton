@@ -72,7 +72,7 @@ Cette API permet de gérer un système de réservation pour des terrains de badm
 2. Accéder à la documentation Swagger :  
    [http://localhost:5001/doc](http://localhost:5001/doc)
 
-A voir en fonction de votre choix dans le .env (HOST_PORT_API)
+> **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
 
 
 ## Conception
@@ -139,10 +139,20 @@ A voir en fonction de votre choix dans le .env (HOST_PORT_API)
 
 
 
-#### GraphQL
+#### **GraphQL**
+
+L'API GraphQL est accessible à l'adresse suivante :  
+[http://localhost:5001/graphql](http://localhost:5001/graphql)
+
+> **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
+
+
+Pour l'exercice, ce sont toujours les mêmes slots qui sont disponibles/indisponibles pour chaque jour.
+
+Par exemple, voici une requête permettant de récupérer les créneaux horaires disponibles pour une date et un terrain spécifiques :
 ```graphql
-query GetAvailableSlots {
-  availableSlots(date: "2024-11-27", terrain: "A") {
+query {
+  availableSlots(date: "2024-12-11", terrain: "A") {
     time
     isAvailable
   }
