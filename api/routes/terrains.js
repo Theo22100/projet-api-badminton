@@ -1,14 +1,15 @@
 const express = require("express");
 const { Terrain } = require("../orm");
 const router = express.Router();
-const authenticateToken = require('../middleware');
-const isAdmin = require('../middleware');
+const { authenticateToken, isAdmin } = require('../middleware');
+const { mapTerrainResourceObject, mapTerrainListToRessourceObject } = require('../hal');
 
 
 router.get("/", authenticateToken, async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
     #swagger.summary = 'Liste tous les terrains'
+    #swagger.security = [{ BearerAuth: [] }]
     #swagger.description = 'Retourne une liste de tous les terrains disponibles dans la base de données.'
     #swagger.security = [{ BearerAuth: [] }]
     #swagger.responses[200] = {
@@ -26,7 +27,7 @@ router.get("/", authenticateToken, async (req, res) => {
     */
     try {
         const terrains = await Terrain.findAll();
-        res.json(terrains);
+        res.status(200).json(mapTerrainListToRessourceObject(terrains));
     } catch (error) {
         console.error('Error fetching terrains:', error);
         res.status(500).json({ error: 'Erreur lors de la récupération des terrains' });
@@ -64,7 +65,7 @@ router.get("/:id", async (req, res) => {
     try {
         const terrain = await Terrain.findByPk(req.params.id);
         if (terrain) {
-            res.json(terrain);
+            res.status(200).json(mapTerrainResourceObject(terrain));
         } else {
             res.status(404).json({ error: "Terrain not found" });
         }
@@ -75,26 +76,18 @@ router.get("/:id", async (req, res) => {
 });
 
 
-router.put("/:id/availability", isAdmin, async (req, res) => {
+router.put("/:id/availability", authenticateToken, isAdmin, async (req, res) => {
     /* 
     #swagger.tags = ['Terrains']
     #swagger.summary = 'Met à jour la disponibilité d’un terrain'
     #swagger.description = 'Met à jour le statut de disponibilité d’un terrain donné par son ID.'
+    #swagger.security = [{ BearerAuth: [] }]
     #swagger.parameters['id'] = {
         in: 'path',
         required: true,
         type: 'integer',
         description: 'ID du terrain à mettre à jour',
         example: 1
-    }
-
-    #swagger.parameters['body'] = {
-        in: 'body',
-        description: 'Mettre true pour rendre le terrain disponible, false pour le rendre indisponible.',
-        required: true,
-        schema: {
-            isAvailable: 'true'
-        }
     }
 
     #swagger.responses[200] = {
@@ -115,9 +108,13 @@ router.put("/:id/availability", isAdmin, async (req, res) => {
     try {
         const terrain = await Terrain.findByPk(req.params.id);
         if (terrain) {
-            terrain.isAvailable = req.body.isAvailable;
+            if (terrain.isAvailable) {
+                terrain.isAvailable = false;
+            } else {
+                terrain.isAvailable = true;
+            }
             await terrain.save();
-            res.json(terrain);
+            res.status(200).json(mapTerrainResourceObject(terrain));
         } else {
             res.status(404).json({ error: "Terrain not found" });
         }
