@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Reservation } = require('../orm');
-const authenticateToken = require('../middleware');
+const { authenticateToken, isAdmin } = require('../middleware');
 const { mapReservationResourceObject, mapReservationListToRessourceObject } = require('../hal');
 
 
@@ -31,6 +31,11 @@ router.post('/', authenticateToken, async (req, res) => {
     const { terrainId, date, startTime } = req.body;
     const userId = req.user.id;
     try {
+        // Vérification de la fermeture du terrain
+        const terrain = await Terrain.findByPk(terrainId);
+        if (!terrain || !terrain.isAvailable) {
+            return res.status(400).json({ error: 'Terrain non disponible.' });
+        }
         // Vérification de la validité de la date
         const reservationDate = new Date(date);
         if (isNaN(reservationDate.getTime())) {
