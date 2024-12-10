@@ -96,7 +96,6 @@ async function initializeDatabase() {
 }
 initializeDatabase();
 
-// Export modèles et Sequelize
 module.exports = {
     sequelize,
     User,
