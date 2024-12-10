@@ -1,6 +1,7 @@
 # Projet API Badminton
 
-Cette API permet de gérer un système de réservation pour des terrains de badminton. Elle inclut des fonctionnalités pour :
+Cette API permet de gérer un système de réservation pour des terrains de badminton. <br>
+Elle inclut des fonctionnalités pour :
 - Gérer les utilisateurs (authentification, rôles, création).
 - Gérer les terrains (ajout, disponibilité).
 - Gérer les réservations (création, suppression, validation).
