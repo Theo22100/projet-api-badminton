@@ -5,7 +5,7 @@ const router = express.Router();
 const { User } = require('../orm');
 const { authenticateToken, isAdmin } = require('../middleware');
 const JWT_SECRET = process.env.JWT_SECRET;
-const { mapUserResourceObject, mapUserListToRessourceObject } = require('../hal');
+const { mapUserResourceObject, mapUserListToRessourceObject, mapLoginResourceObject } = require('../hal');
 
 
 
@@ -110,8 +110,7 @@ router.post('/login', async (req, res) => {
             JWT_SECRET,
             { expiresIn: '1h' }
         );
-        // TODO : renvoyer en hal les informations de l'utilisateur + le token
-        res.status(200).json({ token });
+        res.status(200).json(mapLoginResourceObject(user, token));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Erreur lors de la connexion' });
