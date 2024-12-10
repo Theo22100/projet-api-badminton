@@ -3,11 +3,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const { User } = require('../orm');
-const authenticateToken = require('../middleware');
+const { authenticateToken, isAdmin } = require('../middleware');
 const JWT_SECRET = process.env.JWT_SECRET;
 const { mapUserResourceObject, mapUserListToRessourceObject } = require('../hal');
 
 
+
+
+
+// Créer un utilisateur
 router.post('/', async (req, res) => {
     /* 
     #swagger.tags = ['Users']
@@ -44,16 +48,25 @@ router.post('/', async (req, res) => {
             'application/json': {
                 schema: {
                     error: { type: 'string', example: 'Pseudo déjà utilisé' }
-                }
+                }6
             }
         }
     }
     */
     const { pseudo, password } = req.body;
+    // RegExp simple pour vérifier que le mot de passe contient au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
     try {
+        // Vérification de la complexité du mot de passe
+        if (!regex.test(password)) {
+            return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre' });
+        }
+
+        // Création de l'utilisateur
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ pseudo, password: hashedPassword });
-        res.status(201).json(user);
+
+        res.status(201).json(mapUserResourceObject(user));
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -66,11 +79,12 @@ router.post('/', async (req, res) => {
 
 
 
-
-router.get('/',authenticateToken, async (req, res) => {
+// Liste des utilisateurs
+router.get('/', authenticateToken, isAdmin, async (req, res) => {
     /* 
     #swagger.tags = ['Users']
     #swagger.summary = 'Liste des utilisateurs'
+    #swagger.security = [{ BearerAuth: [] }]
     #swagger.description = 'Retourne la liste de tous les utilisateurs enregistrés.'
     #swagger.responses[200] = {
         description: 'Liste des utilisateurs récupérée avec succès',
@@ -104,7 +118,7 @@ router.get('/',authenticateToken, async (req, res) => {
 });
 
 
-
+// Authentifier un utilisateur6
 router.post('/login', async (req, res) => {
     /* 
     #swagger.tags = ['Users']
@@ -116,8 +130,8 @@ router.post('/login', async (req, res) => {
         description: 'Données pour se connecter à un utilisateur.',
         required: true,
         schema: {
-            pseudo: 'player1',
-            password: 'P4$$w0rd'
+            pseudo: 'admybad',
+            password: 'astrongpassword'
         }
     }
     #swagger.responses[200] = {
@@ -166,12 +180,50 @@ router.post('/login', async (req, res) => {
             JWT_SECRET,
             { expiresIn: '1h' }
         );
-
+        // TODO : renvoyer en hal les informations de l'utilisateur + le token
         res.status(200).json({ token });
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Erreur lors de la connexion' });
     }
+});
+
+
+// Modifier un utilisateur
+router.put('/:id', authenticateToken, async (req, res) => {
+    /*
+    #swagger.tags = ['Users']
+    #swagger.summary = 'Modifier un utilisateur'
+    #swagger.security = [{ BearerAuth: [] }]
+    #swagger.description = 'Endpoint permettant de modifier un utilisateur en fonction de son ID.'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'integer',
+        description: 'ID de l\'utilisateur à modifier',
+        example: 1
+    }
+    */
+    const user = req.user;
+    const { pseudo, password } = req.body;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    console.log('>>>>>>>>>> hash password123', await bcrypt.hash('password123', 10));
+    console.log('>>>>>>>>>> hash password456', await bcrypt.hash('password456', 10));
+    try {
+        if (pseudo) user.pseudo = pseudo;
+        if (password) {
+            if (!regex.test(password)) {
+                return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre' });
+            }
+            user.password = await bcrypt.hash(password, 10);
+        }
+        await user.save();
+
+        res.status(200).json(mapUserResourceObject(user));	
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+
 });
 
 module.exports = router;
