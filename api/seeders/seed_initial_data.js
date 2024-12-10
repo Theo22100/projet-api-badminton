@@ -7,7 +7,7 @@ module.exports = async function seedInitialData({ User, Terrain, Reservation }) 
         // Vérification et insertion des utilisateurs si nécessaire
         const existingUsers = await User.count();
         if (existingUsers === 0) {
-            const hashedPasswordAdmin = await bcrypt.hash("adminpassword", 10); // Hash pour l'admin
+            const hashedPasswordAdmin = await bcrypt.hash("astrongpassword", 10); // Hash pour l'admin
             const hashedPasswordPlayer1 = await bcrypt.hash("password123", 10); // Hash pour player1
             const hashedPasswordPlayer2 = await bcrypt.hash("password456", 10); // Hash pour player2
 

@@ -110,7 +110,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
 
 
-router.delete('/:id', authenticateToken,  async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
     /* 
     #swagger.tags = ['Réservations'] 
     #swagger.summary = 'Supprimer une réservation'
@@ -129,19 +129,15 @@ router.delete('/:id', authenticateToken,  async (req, res) => {
     const idUser = req.user.id;
     try {
         const reservation = await Reservation.findByPk(id);
-        console.log('>>>>>>>>>>>>>>>>>>>> idUser', idUser);
-        console.log('>>>>>>>>>>>>>>>>>>>> user id reservation ', reservation.userId);
-        console.log('>>>>>>>>>>>>>>>>>>>> id Reservation', id);
-        console.log('>>>>>>>>>>>>>>>>>>>> User auth', req.user);
-        console.log('>>>>>>>>>>>>>>>>>>>> isAdmin', req.user.isAdmin);
-        if (reservation.userId !== idUser || !req.user.isAdmin) {
-            return res.status(403).json({ error: 'Accès refusé' });
-        }
         if (!reservation) {
             return res.status(404).json({ error: 'Réservation non trouvée' });
         }
-        await reservation.destroy();
-        res.status(204).end();
+        if (reservation.userId === idUser || req.user.isAdmin) {
+            await reservation.destroy();
+            return res.status(204).end();
+        } else {
+            return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette réservation' });
+        }
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
