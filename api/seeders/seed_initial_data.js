@@ -31,8 +31,15 @@ module.exports = async function seedInitialData({ User, Terrain, Reservation }) 
 
             // Création de réservations
             await Reservation.bulkCreate([
-                { userId: user1.id, terrainId: terrainA.id, timeSlot: "2022-01-01 10:00:00" },
+                {
+                    userId: user1.id,
+                    terrainId: terrainA.id,
+                    date: "2024-12-08", // 8 décembre 2024
+                    startTime: "10:00:00",
+                    endTime: "10:45:00", 
+                },
             ]);
+            
         }
 
         console.log("Seeders completed successfully!");
