@@ -1,0 +1,579 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "3.0.0",
+    "title": "Badminton RESTful API",
+    "description": "Documentation pour l'API de badminton"
+  },
+  "host": "localhost:5001",
+  "basePath": "",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Routes liées aux utilisateurs"
+    },
+    {
+      "name": "Terrains",
+      "description": "Routes liées aux Terrains"
+    },
+    {
+      "name": "Réservations",
+      "description": "Routes liées aux réservations"
+    },
+    {
+      "name": "Home",
+      "description": "Routes liées à la page d'accueil ou au point de base de l'API"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Entrez \"Bearer <votre-token>\" pour vous authentifier."
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Page d'accueil",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Créer un utilisateur",
+        "description": "Créer un utilisateur avec un pseudo unique et un mot de passe hashé.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données pour créer un utilisateur.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pseudo": {
+                  "type": "string",
+                  "example": "player1"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "P4$$w0rd"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Liste des utilisateurs",
+        "description": "Retourne la liste de tous les utilisateurs enregistrés.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Authentifier un utilisateur",
+        "description": "Endpoint permettant à un utilisateur de se connecter avec son pseudo et son mot de passe.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données pour se connecter à un utilisateur.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pseudo": {
+                  "type": "string",
+                  "example": "admybad"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "astrongpassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Modifier un utilisateur",
+        "description": "Endpoint permettant de modifier un utilisateur en fonction de son ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'utilisateur à modifier",
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pseudo": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservations/": {
+      "get": {
+        "tags": [
+          "Réservations"
+        ],
+        "summary": "Liste des réservations",
+        "description": "Endpoint permettant de lister toutes les réservations.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Réservations"
+        ],
+        "summary": "Créer une réservation",
+        "description": "Endpoint permettant de créer une réservation pour un utilisateur donné et un terrain spécifique à un horaire précis.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Créer une réservation.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "terrainId": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "date": {
+                  "type": "string",
+                  "example": "YYYY-MM-DD"
+                },
+                "startTime": {
+                  "type": "string",
+                  "example": "HH:MM"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reservations/{id}": {
+      "delete": {
+        "tags": [
+          "Réservations"
+        ],
+        "summary": "Supprimer une réservation",
+        "description": "Endpoint permettant de supprimer une réservation en fonction de son ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de la réservation à supprimer",
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/terrains/": {
+      "get": {
+        "tags": [
+          "Terrains"
+        ],
+        "summary": "Liste tous les terrains",
+        "description": "Retourne une liste de tous les terrains disponibles dans la base de données.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des terrains",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Terrain A"
+                  },
+                  "isAvailable": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2024-01-01T00:00:00Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2024-01-01T00:00:00Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/terrains/{id}": {
+      "get": {
+        "tags": [
+          "Terrains"
+        ],
+        "summary": "Récupère les informations pour un terrain spécifique",
+        "description": "Retourne les informations pour un terrain spécifique basé sur son ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID du terrain à récupérer",
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informations du terrain",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Terrain A"
+                },
+                "isAvailable": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-01-01T00:00:00Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2024-01-01T00:00:00Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Terrain non trouvé",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Terrain not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/terrains/{id}/availability": {
+      "put": {
+        "tags": [
+          "Terrains"
+        ],
+        "summary": "Met à jour la disponibilité d’un terrain",
+        "description": "Met à jour le statut de disponibilité d’un terrain donné par son ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID du terrain à mettre à jour",
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Terrain mis à jour avec succès",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Terrain A"
+                },
+                "isAvailable": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-01-01T00:00:00Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2024-01-01T00:00:00Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Terrain non trouvé",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Terrain not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
+}

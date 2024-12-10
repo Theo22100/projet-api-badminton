@@ -6,6 +6,8 @@ Elle inclut des fonctionnalités pour :
 - Gérer les terrains (ajout, disponibilité).
 - Gérer les réservations (création, suppression, validation).
 
+Un jeu de données est directement inséré dans la base de données MySQL, disponible dans `api/seeder/seed_initial_data.js`.
+
 ---
 
 ## Table des matières
@@ -73,11 +75,12 @@ Elle inclut des fonctionnalités pour :
 2. Accéder à la documentation Swagger :  
    [http://localhost:5001/doc](http://localhost:5001/doc)
 
+Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert comme exemple, mais ne sert pas dans le projet.
+
 > **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
 
 
 ## Conception
-
 
 
 ### Dictionnaire de données
