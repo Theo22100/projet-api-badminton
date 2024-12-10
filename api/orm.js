@@ -85,7 +85,7 @@ async function initializeDatabase() {
         console.log("Connection to the database has been established successfully.");
 
         // Synchroniser les modèles avec la BDD
-        await sequelize.sync({ alter: true }); // MAJ les tables sans suppression
+        await sequelize.sync({ force: true }); // MAJ les tables sans suppression
         console.log("Database tables synchronized successfully.");
 
         // Charger seeders avec modèles

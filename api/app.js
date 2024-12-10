@@ -72,10 +72,4 @@ app.use(function (err, req, res, next) {
   res.send('Error');
 });
 
-
-// Synchroniser Sequelize avec la base de données
-sequelize.sync().then(() => {
-    console.log('Base de données synchronisée.');
-});
-
 module.exports = app;

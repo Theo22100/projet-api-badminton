@@ -77,10 +77,12 @@ function mapReservationResourceObject(reservationData) {
         id: reservationData.id,
         userId: reservationData.userId,
         terrainId: reservationData.terrainId,
-        date: reservationData.date,
         startTime: reservationData.startTime,
         endTime: reservationData.endTime,
         createdAt: reservationData.createdAt,
+        date: reservationData.date,
+        createdAt: reservationData.createdAt,
+        updatedAt: reservationData.updatedAt
         
     }
 }
