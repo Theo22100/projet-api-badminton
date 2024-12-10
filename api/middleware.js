@@ -17,7 +17,7 @@ const authenticateToken = async (req, res, next) => {
         const decoded = jwt.verify(token, JWT_SECRET);
 
         // Recherche de l'utilisateur correspondant
-        const user = await User.findByPk(decoded.id); // Remplacez par la méthode correspondant à votre ORM
+        const user = await User.findByPk(decoded.id); 
         if (!user) {
             return res.status(403).json({ message: 'Utilisateur non trouvé ou accès interdit' });
         }
