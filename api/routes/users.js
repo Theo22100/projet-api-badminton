@@ -29,10 +29,10 @@ router.post('/', async (req, res) => {
     }
     */
     const { pseudo, password } = req.body;
-    // RegExp simple pour vérifier que le mot de passe contient au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+    // RegExp pour vérifier que le mdp contient au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     try {
-        // Vérification de la complexité du mot de passe
+        // Vérification de la complexité du mdp
         if (!regex.test(password)) {
             return res.status(400).json({ error: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre' });
         }
