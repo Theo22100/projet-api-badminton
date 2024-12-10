@@ -45,9 +45,25 @@ function mapUserResourceObject(userData, baseURL) {
     }
 }
 
+function mapLoginResourceObject(userData, token) {
+    return {
+        "_links": {
+            "self": halLinkObject('/login'),
+            "user": halLinkObject('/users/' + userData.id),
+            "logout": halLinkObject('/logout')	
+        },
+        token: token,
+        type: "Bearer",
+        pseudo: userData.pseudo,
+        id : userData.id,
+        isAdmin: userData.isAdmin
+    }
+
+
+}
+
 function mapTerrainResourceObject(terrainData) {
 
-    //La liste des users
     return {
 
         "_links": {
@@ -66,7 +82,6 @@ function mapTerrainResourceObject(terrainData) {
 
 function mapReservationResourceObject(reservationData) {
 
-    //La liste des users
     return {
 
         "_links": {
@@ -138,4 +153,4 @@ function mapUserListToRessourceObject(userData) {
 }
 
 
-module.exports = { halLinkObject, mapUserResourceObject, mapUserListToRessourceObject, mapTerrainResourceObject, mapTerrainListToRessourceObject, mapReservationResourceObject, mapReservationListToRessourceObject };
+module.exports = { halLinkObject, mapUserResourceObject, mapUserListToRessourceObject, mapTerrainResourceObject, mapTerrainListToRessourceObject, mapReservationResourceObject, mapReservationListToRessourceObject, mapLoginResourceObject };
