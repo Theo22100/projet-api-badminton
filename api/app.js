@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var userRoutes = require('./routes/users');
 var reservationRoutes = require('./routes/reservations');
 var terrainRoutes = require('./routes/terrains');
+const graphqlRoutes = require('./graphql')
 require('dotenv').config()
 
 var app = express();
@@ -46,6 +47,7 @@ app.use('/', indexRouter);
 app.use('/users', userRoutes);
 app.use('/reservations', reservationRoutes);
 app.use('/terrains', terrainRoutes);
+app.use(graphqlRoutes);
 
 
 /**
