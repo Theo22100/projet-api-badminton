@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
     }
     */
     const { pseudo, password } = req.body;
-    // RegExp pour vérifier que le mdp contient au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre
+    // RegExp pour vérifier que le mdp contient au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     try {
         // Vérification de la complexité du mdp
