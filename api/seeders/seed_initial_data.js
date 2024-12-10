@@ -35,8 +35,8 @@ module.exports = async function seedInitialData({ User, Terrain, Reservation }) 
                     userId: user1.id,
                     terrainId: terrainA.id,
                     date: "2024-12-08", // 8 décembre 2024
-                    startTime: "10:00:00",
-                    endTime: "10:45:00", 
+                    startTime: "10:00",
+                    endTime: "10:45", 
                 },
             ]);
             
