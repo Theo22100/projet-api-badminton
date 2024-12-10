@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         required: true,
         schema: {
             pseudo: 'player1',
-            password: 'P4$$w0rd'
+            password: 'P4$sw0rd'
         }
     }
     */
