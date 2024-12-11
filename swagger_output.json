@@ -55,77 +55,6 @@
         }
       }
     },
-    "/users/": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Créer un utilisateur",
-        "description": "Créer un utilisateur avec un pseudo unique et un mot de passe hashé.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Données pour créer un utilisateur.",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "pseudo": {
-                  "type": "string",
-                  "example": "player1"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "P4$$w0rd"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Liste des utilisateurs",
-        "description": "Retourne la liste de tous les utilisateurs enregistrés.",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
-      }
-    },
     "/users/login": {
       "post": {
         "tags": [
@@ -167,13 +96,87 @@
         }
       }
     },
-    "/users/{id}": {
+    "/users/": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Créer un utilisateur",
+        "description": "Créer un utilisateur avec un pseudo unique et un mot de passe hashé.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Données pour créer un utilisateur.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pseudo": {
+                  "type": "string",
+                  "example": "player1"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "P4$sw0rd"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Liste des utilisateurs",
+        "description": "Retourne la liste de tous les utilisateurs enregistrés.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/pseudo": {
       "put": {
         "tags": [
           "Users"
         ],
-        "summary": "Modifier un utilisateur",
-        "description": "Endpoint permettant de modifier un utilisateur en fonction de son ID.",
+        "summary": "Modifier le pseudo d\\'un utilisateur",
+        "description": "Endpoint permettant de modifier le pseudo d\\'un utilisateur en fonction de son ID.",
         "parameters": [
           {
             "name": "id",
@@ -191,14 +194,14 @@
           {
             "name": "body",
             "in": "body",
+            "description": "Pseudo à modifier.",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
                 "pseudo": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "player1"
                 }
               }
             }
@@ -216,6 +219,76 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/password": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Modifier le mot de passe d\\'un utilisateur",
+        "description": "Endpoint permettant de modifier le mot de passe d\\'un utilisateur en fonction de son ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de l'utilisateur à modifier",
+            "example": 1
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Mot de passe à modifier.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "P4$sw0rd"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "security": [

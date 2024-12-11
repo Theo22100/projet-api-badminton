@@ -15,11 +15,17 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 - [Fonctionnalités](#fonctionnalités)
 - [Installation](#installation)
 - [Conception](#conception)
+- [Sécurité](#sécurité)
 - [Endpoints](#tableau-récapitulatif)
 - [GraphQL](#graphql)
 
 
 ## Fonctionnalités
+
+- Un utilisateur peut créer un utilisateur, modifier son mot de passe, son pseudo, peut s'authentifier et avoir la liste des utilisateurs.
+- Un utilisateur ne peut pas modifier les mots de passes et pseudos des autres, alors qu'un admin si.
+- Un utilisateur peut récupérer la liste des réservations, créer une réservation, et supprimer ses réservations, alors qu'un admin peut supprimer les réservations de n'importe qui.
+- Un admin peut mettre à jour la disponibilité d'un terrain.
 
 ### Gestion des Réservations
 - Création, suppression et visualisation des réservations.
@@ -31,6 +37,7 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 
 ### Gestion des Utilisateurs
 - Création, authentification, modification et gestion des droits d'accès.
+
 
 ---
 
@@ -79,6 +86,13 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 > **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
 
+## Adminer
+
+1. Accéder à l'adminer :
+   [http://localhost:5003](http://localhost:5003)
+
+> **Remarque :** Le port (`5003`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_ADMINER`. 
+
 
 ## Conception
 
@@ -90,15 +104,15 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 | **Nom du Champ** | **Type de Donnée** | **Taille/Format**           | **Contraintes**                | **Description**                  |
 |-------------------|--------------------|------------------------------|---------------------------------|----------------------------------|
 | `id_user`         | Integer           | 4 octets (32 bits)           | Primary key, auto-incrémentée  | Identifiant unique de l'utilisateur. |
-| `pseudo`          | String            | 255 caractères               | Unique, non nul                | Pseudo de l'utilisateur.         |
-| `password`        | String            | 128 caractères SHA 512       | Non nul                        | Mot de passe hashé de l'utilisateur. |
+| `pseudo`          | String            | 255 caractères               | Unique, non nul , Taille [3:50]               | Pseudo de l'utilisateur.         |
+| `password`        | String            | 128 caractères SHA 512       | Non nul Taille [6:50]                        | Mot de passe hashé de l'utilisateur. |
 | `isAdmin`         | Boolean           | 1 bit                        | Non nul                        | Indique si l'utilisateur est administrateur. |
 
 #### Table `Terrain`
 | **Nom du Champ** | **Type de Donnée** | **Taille/Format**           | **Contraintes**                | **Description**                  |
 |-------------------|--------------------|------------------------------|---------------------------------|----------------------------------|
 | `id_terrain`      | Integer           | 4 octets (32 bits)           | Primary key, auto-incrémentée  | Identifiant unique du terrain.   |
-| `name`            | String            | 255 caractères               | Unique, non nul                | Nom du terrain.                  | 
+| `name`            | String            | 255 caractères               | Unique, non nul, Taille [1:10] | Nom du terrain.                  | 
 | `isAvailable`     | Boolean           | 1 bit                        | Non nul                        | Disponibilité du terrain.        |
 
 #### Table `Reservation`
@@ -124,7 +138,8 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 |---------------------|----------------------------------|-------------------|-----------------------------------------------|------------------------------------------------|
 | **Home**            | `/api`                          | `GET`             | Aucun                                        | - Pour savoir si l'API est en marche             |
 | **Utilisateurs**    | `/api/users`                    | `POST, GET`       | Aucun                                        | - **POST** : Créer un utilisateur. <br>- **GET** : Obtenir la liste des utilisateurs. |
-| **Utilisateur**     | `/api/users/:id`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour les informations d'un utilisateur. |
+| **Utilisateur**     | `/api/users/:id/pseudo`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour le pseudo d'un utilisateur. |
+| **Utilisateur**     | `/api/users/:id/password`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour le mot de passe d'un utilisateur |
 | **Terrains**        | `/api/terrains`                 | `GET`             | Aucun                                        | Obtenir la liste des terrains disponibles.      |
 | **Terrain**         | `/api/terrains/:id`             | `GET`             | `id` : Identifiant du terrain                | Obtenir les détails d'un terrain spécifique.    |
 | **Login**           | `/api/users/login`              | `POST`            | Aucun                                        | Authentifier un utilisateur.                    |
@@ -142,6 +157,17 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 
 ---
+
+### Sécurité
+
+- Lorsqu'un utilisateur essaye trop de fois de se connecter (10 fois), il est bloqué et doit attendre 15 minutes, évitant ainsi les attaques en force brute grâce à `express-rate-limit`.
+- Parler du Bearer
+- Jeton JWT
+- Parler middleware
+
+
+---
+
 
 ## GraphQL
 
