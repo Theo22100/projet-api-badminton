@@ -16,6 +16,7 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 - [Installation](#installation)
 - [Conception](#conception)
 - [Sécurité](#sécurité)
+- [Cas Nominal](#cas-nominal--réserver-un-terrain-de-badminton)
 - [Endpoints](#tableau-récapitulatif)
 - [GraphQL](#graphql)
 
