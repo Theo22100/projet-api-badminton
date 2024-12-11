@@ -112,7 +112,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 | **Nom du Champ** | **Type de Donnée** | **Taille/Format**           | **Contraintes**                | **Description**                  |
 |-------------------|--------------------|------------------------------|---------------------------------|----------------------------------|
 | `id_terrain`      | Integer           | 4 octets (32 bits)           | Primary key, auto-incrémentée  | Identifiant unique du terrain.   |
-| `name`            | String            | 255 caractères               | Unique, non nul                | Nom du terrain.                  | 
+| `name`            | String            | 255 caractères               | Unique, non nul, Taille [1:10] | Nom du terrain.                  | 
 | `isAvailable`     | Boolean           | 1 bit                        | Non nul                        | Disponibilité du terrain.        |
 
 #### Table `Reservation`
