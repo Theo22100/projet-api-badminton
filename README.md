@@ -15,6 +15,7 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 - [Fonctionnalités](#fonctionnalités)
 - [Installation](#installation)
 - [Conception](#conception)
+- [Sécurité](#sécurité)
 - [Endpoints](#tableau-récapitulatif)
 - [GraphQL](#graphql)
 
@@ -84,6 +85,13 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert comme exemple, mais ne sert pas dans le projet.
 
 > **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
+
+## Adminer
+
+1. Accéder à l'adminer :
+   [http://localhost:5003/doc](http://localhost:5003)
+
+> **Remarque :** Le port (`5003`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_ADMINER`. 
 
 
 ## Conception
