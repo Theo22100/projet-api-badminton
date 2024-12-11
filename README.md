@@ -96,8 +96,8 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 | **Nom du Champ** | **Type de Donnée** | **Taille/Format**           | **Contraintes**                | **Description**                  |
 |-------------------|--------------------|------------------------------|---------------------------------|----------------------------------|
 | `id_user`         | Integer           | 4 octets (32 bits)           | Primary key, auto-incrémentée  | Identifiant unique de l'utilisateur. |
-| `pseudo`          | String            | 255 caractères               | Unique, non nul                | Pseudo de l'utilisateur.         |
-| `password`        | String            | 128 caractères SHA 512       | Non nul                        | Mot de passe hashé de l'utilisateur. |
+| `pseudo`          | String            | 255 caractères               | Unique, non nul , Taille [3:50]               | Pseudo de l'utilisateur.         |
+| `password`        | String            | 128 caractères SHA 512       | Non nul Taille [6:50]                        | Mot de passe hashé de l'utilisateur. |
 | `isAdmin`         | Boolean           | 1 bit                        | Non nul                        | Indique si l'utilisateur est administrateur. |
 
 #### Table `Terrain`
@@ -130,7 +130,8 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 |---------------------|----------------------------------|-------------------|-----------------------------------------------|------------------------------------------------|
 | **Home**            | `/api`                          | `GET`             | Aucun                                        | - Pour savoir si l'API est en marche             |
 | **Utilisateurs**    | `/api/users`                    | `POST, GET`       | Aucun                                        | - **POST** : Créer un utilisateur. <br>- **GET** : Obtenir la liste des utilisateurs. |
-| **Utilisateur**     | `/api/users/:id`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour les informations d'un utilisateur. |
+| **Utilisateur**     | `/api/users/:id/pseudo`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour le pseudo d'un utilisateur. |
+| **Utilisateur**     | `/api/users/:id/password`                | `PUT`             | `id` : Identifiant de l'utilisateur          | Mettre à jour le mot de passe d'un utilisateur |
 | **Terrains**        | `/api/terrains`                 | `GET`             | Aucun                                        | Obtenir la liste des terrains disponibles.      |
 | **Terrain**         | `/api/terrains/:id`             | `GET`             | `id` : Identifiant du terrain                | Obtenir les détails d'un terrain spécifique.    |
 | **Login**           | `/api/users/login`              | `POST`            | Aucun                                        | Authentifier un utilisateur.                    |
@@ -148,6 +149,17 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 
 ---
+
+### Sécurité
+
+- Lorsqu'un utilisateur essaye trop de fois de se connecter (10 fois), il est bloqué et doit attendre 15 minutes, évitant ainsi les attaques en force brute grâce à `express-rate-limit`.
+- Parler du Bearer
+- Jeton JWT
+- Parler middleware
+
+
+---
+
 
 ## GraphQL
 
