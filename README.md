@@ -97,6 +97,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 ## Conception
 
+Nous avons choisis d'utiliser Sequelize en ORM.
 
 ### Dictionnaire de données
 
@@ -298,8 +299,8 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 - Exemple : `2`
 - Cliquez sur **"Execute"**.
 - Deux cas sont possibles :
-  1. **Vous n’avez pas la permission** : Cela se produit si vous tentez de supprimer une réservation qui ne vous appartient pas et que vous n’êtes pas administrateur.
-  2. **La réservation est supprimée avec succès** : Cela se produit si la réservation vous appartient ou si vous êtes administrateur.
+  I. **Vous n’avez pas la permission** : Cela se produit si vous tentez de supprimer une réservation qui ne vous appartient pas et que vous n’êtes pas administrateur.
+  II. **La réservation est supprimée avec succès** : Cela se produit si la réservation vous appartient ou si vous êtes administrateur.
 
 ---
 
