@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -7,11 +8,18 @@ const { authenticateToken, isAdmin } = require('../middleware');
 const JWT_SECRET = process.env.JWT_SECRET;
 const { mapUserResourceObject, mapUserListToRessourceObject, mapLoginResourceObject } = require('../hal');
 const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const loginLimiter = rateLimit({ //Evite force brute
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limite de 10 tentatives
+    message: {
+        error: 'Trop de tentatives de connexion, veuillez réessayer après 15 minutes.'
+    }
+});
 
 
 
 // Authentifier un utilisateur
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
     /* 
     #swagger.tags = ['Users']
     #swagger.summary = 'Authentifier un utilisateur'
