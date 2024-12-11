@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     */
     try {
         const reservations = await Reservation.findAll();
-        res.status(200).json(mapReservationListToRessourceObject(reservations));
+        res.status(200).json(await mapReservationListToRessourceObject(reservations));
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -102,7 +102,7 @@ router.post('/', authenticateToken, async (req, res) => {
 
         // Créer la réservation
         const reservation = await Reservation.create({ userId, terrainId, date, startTime, endTime });
-        res.status(201).json(mapReservationResourceObject(reservation));
+        res.status(201).json(await mapReservationResourceObject(reservation));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -139,7 +139,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
             return res.status(403).json({ error: 'Vous n\'êtes pas autorisé à supprimer cette réservation' });
         }
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 
