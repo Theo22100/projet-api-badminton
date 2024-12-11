@@ -168,6 +168,137 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 ---
 
+## Cas nominal : Réserver un terrain de badminton
+
+### Accéder à Swagger UI
+1. Ouvrez [http://localhost:5001/doc](http://localhost:5001/doc) dans votre navigateur.
+2. Cette interface liste tous les endpoints disponibles, avec des descriptions et des options pour tester directement les requêtes.
+
+> **Remarque :** Le port (`5001`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_API`. 
+
+---
+
+### Étapes principales
+
+#### 1. Créer un utilisateur
+- Allez à l’endpoint **`POST /api/users`** dans Swagger.
+- Cliquez sur **"Try it out"**, puis remplissez les champs requis avec un pseudo et un mot de passe.
+- Exemple de corps de requête :
+  ```json
+  {
+    "pseudo": "joueur1",
+    "password": "monMotDePasseSecurise"
+  }
+
+#### 2. Se connecter et récupérer un token
+- Allez à l’endpoint **`POST /api/users/login`** dans Swagger.
+- Cliquez sur **"Try it out"**, puis remplissez les champs requis avec votre pseudo et mot de passe.
+- Exemple de corps de requête :
+  ```json
+  {
+    "pseudo": "joueur1",
+    "password": "monMotDePasseSecurise"
+  }
+- Une fois la requête exécutée, un token JWT sera généré dans la réponse.
+- Copiez ce token, il sera nécessaire pour autoriser vos requêtes aux autres endpoints.
+
+#### 3. Ajouter le token JWT
+- Dans Swagger, cliquez sur le bouton **"Authorize"** situé en haut à droite de l’interface.
+- Une fenêtre apparaîtra pour entrer le token d’autorisation.
+- Veuillez le mettre
+- Cliquez sur "Authorize" pour valider. Une fois le token ajouté, vous pourrez effectuer des requêtes authentifiées sur les endpoints nécessitant une autorisation.
+
+#### 4. Consulter les terrains disponibles
+- Allez à l’endpoint **`GET /api/terrains`** dans Swagger.
+- Cliquez sur **"Try it out"** pour exécuter la requête.
+- Vous obtiendrez une liste des terrains avec leurs détails, y compris leur disponibilité.
+- Utilisez les informations des terrains pour identifier celui que vous souhaitez réserver.
+- 
+#### 5. Créer une réservation
+- Allez à l’endpoint **`POST /api/reservations`** dans Swagger.
+- Cliquez sur **"Try it out"**, puis remplissez les champs requis dans le corps de la requête.
+- Exemple de corps de requête :
+```json
+  {
+    "terrainId": 1,
+    "date": "2024-12-12",
+    "startTime": "18:00",
+  }
+```
+- Cliquez sur "Execute" pour envoyer la requête.
+- Si la réservation est réussie, vous obtiendrez une réponse contenant les détails de la réservation, comme ci-dessous :
+```json
+{
+  "_links": {
+    "self": {
+      "href": "/reservations/2",
+      "templated": false
+    },
+    "reservations": {
+      "href": "/reservations",
+      "templated": false
+    }
+  },
+  "id": 2,
+  "userId": 1,
+  "terrainId": "1",
+  "startTime": "18:00",
+  "endTime": "18:45:00",
+  "createdAt": "2024-12-11T19:28:08.314Z",
+  "date": "2024-12-12",
+  "updatedAt": "2024-12-11T19:28:08.314Z",
+  "_embedded": {
+    "user": {
+      "_links": {
+        "self": {
+          "href": "/users/1",
+          "templated": false
+        },
+        "users": {
+          "href": "/users",
+          "templated": false
+        }
+      },
+      "pseudo": "admybad",
+      "id": 1
+    },
+    "terrain": {
+      "_links": {
+        "self": {
+          "href": "/terrains/1",
+          "templated": false
+        },
+        "terrains": {
+          "href": "/terrains",
+          "templated": false
+        }
+      },
+      "name": "A",
+      "id": 1,
+      "isAvailable": true,
+      "createdAt": "2024-12-11T19:23:26.000Z",
+      "updatedAt": "2024-12-11T19:23:26.000Z"
+    }
+  }
+}
+```
+- Vous pouvez maintenant vérifier votre réservation dans la prochaine étape.
+
+#### 6. Vérifier vos réservations
+- Allez à l’endpoint **`GET /api/reservations`** dans Swagger.
+- Cliquez sur **"Try it out"** pour exécuter la requête.
+- Vous obtiendrez une liste de toutes vos réservations sous forme de réponse JSON.
+
+#### 7. Annuler une réservation
+- Allez à l’endpoint **`DELETE /api/reservations/{id}`** dans Swagger.
+- Cliquez sur **"Try it out"**, puis remplacez `{id}` par l’identifiant de la réservation que vous souhaitez annuler.
+- Exemple : `2`
+- Cliquez sur **"Execute"**.
+- Deux cas sont possibles :
+  1. **Vous n’avez pas la permission** : Cela se produit si vous tentez de supprimer une réservation qui ne vous appartient pas et que vous n’êtes pas administrateur.
+  2. **La réservation est supprimée avec succès** : Cela se produit si la réservation vous appartient ou si vous êtes administrateur.
+
+---
 
 ## GraphQL
 
