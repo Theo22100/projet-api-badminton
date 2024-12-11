@@ -187,7 +187,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
   ```json
   {
     "pseudo": "joueur1",
-    "password": "monMotDePasseSecurise"
+    "password": "P4$sw0rd!"
   }
 
 #### 2. Se connecter et récupérer un token
@@ -197,7 +197,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
   ```json
   {
     "pseudo": "joueur1",
-    "password": "monMotDePasseSecurise"
+    "password": "P4$sw0rd!"
   }
 - Une fois la requête exécutée, un token JWT sera généré dans la réponse.
 - Copiez ce token, il sera nécessaire pour autoriser vos requêtes aux autres endpoints.
@@ -205,7 +205,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 #### 3. Ajouter le token JWT
 - Dans Swagger, cliquez sur le bouton **"Authorize"** situé en haut à droite de l’interface.
 - Une fenêtre apparaîtra pour entrer le token d’autorisation.
-- Veuillez le mettre
+- Veuillez le mettre.
 - Cliquez sur "Authorize" pour valider. Une fois le token ajouté, vous pourrez effectuer des requêtes authentifiées sur les endpoints nécessitant une autorisation.
 
 #### 4. Consulter les terrains disponibles
@@ -227,6 +227,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 ```
 - Cliquez sur "Execute" pour envoyer la requête.
 - Si la réservation est réussie, vous obtiendrez une réponse contenant les détails de la réservation, comme ci-dessous :
+
 ```json
 {
   "_links": {
