@@ -323,4 +323,8 @@ query {
   }
 }
 ```
+## Référence 
 
+- [Documentation officielle de Swagger](https://swagger.io/docs/): pour la mise en place de la documentation API.
+- [starterpack-api-nodejs](https://github.com/paul-schuhm/starterpack-api-nodejs): comme base technique pour construire l'API.
+- Cours : pour l'application des concepts architecturaux et des bonnes pratiques.
