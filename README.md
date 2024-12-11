@@ -160,10 +160,10 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 
 ### Sécurité
 
-- Lorsqu'un utilisateur essaye trop de fois de se connecter (10 fois), il est bloqué et doit attendre 15 minutes, évitant ainsi les attaques en force brute grâce à `express-rate-limit`.
-- Parler du Bearer
-- Jeton JWT
-- Parler middleware
+- Lorsqu'un utilisateur tente de se connecter trop de fois (10 tentatives), il est bloqué pendant 15 minutes, empêchant ainsi les attaques par force brute grâce à `express-rate-limit`.
+- À chaque connexion l'utilisateur se voit attribuer un Token JWT qui permet de l'identifier dans l'API a chacune de ses requettes.
+- Le Token JWT est enregistré dans l'onglet ahtorization bearer du header de chaque requettes. 
+- Sur chaque route est 'branché' un MiddleWare qui controle la connexion de l'utilsateur en vérifiant le token via le JWT_SECRET stocker dans le fichier d'environement de l'api, sur les routes nécessitant un compte     admin un miidleware a aussi été prévu.
 
 
 ---
