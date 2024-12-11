@@ -161,9 +161,9 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 ### Sécurité
 
 - Lorsqu'un utilisateur tente de se connecter trop de fois (10 tentatives), il est bloqué pendant 15 minutes, empêchant ainsi les attaques par force brute grâce à `express-rate-limit`.
-- À chaque connexion l'utilisateur se voit attribuer un Token JWT qui permet de l'identifier dans l'API a chacune de ses requettes.
-- Le Token JWT est enregistré dans l'onglet ahtorization bearer du header de chaque requettes. 
-- Sur chaque route est 'branché' un MiddleWare qui controle la connexion de l'utilsateur en vérifiant le token via le JWT_SECRET stocker dans le fichier d'environement de l'api, sur les routes nécessitant un compte     admin un miidleware a aussi été prévu.
+- À chaque connexion, l'utilisateur se voit attribuer un token JWT qui permet de l'identifier dans l'API à chacune de ses requêtes.
+- Le token JWT est enregistré dans l'onglet Authorization Bearer du header de chaque requête.
+- Sur chaque route est branché un middleware qui contrôle la connexion de l'utilisateur en vérifiant le token via le `JWT_SECRET` stocké dans le fichier d'environnement de l'API. Sur les routes nécessitant un compte administrateur, un middleware spécifique a également été prévu.
 
 
 ---
@@ -213,11 +213,12 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 - Cliquez sur **"Try it out"** pour exécuter la requête.
 - Vous obtiendrez une liste des terrains avec leurs détails, y compris leur disponibilité.
 - Utilisez les informations des terrains pour identifier celui que vous souhaitez réserver.
-- 
+  
 #### 5. Créer une réservation
 - Allez à l’endpoint **`POST /api/reservations`** dans Swagger.
 - Cliquez sur **"Try it out"**, puis remplissez les champs requis dans le corps de la requête.
 - Exemple de corps de requête :
+
 ```json
   {
     "terrainId": 1,
