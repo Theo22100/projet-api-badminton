@@ -22,6 +22,11 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 
 ## Fonctionnalités
 
+- Un utilisateur peut créer un utilisateur, modifier son mot de passe, son pseudo, peut s'authentifier et avoir la liste des utilisateurs.
+- Un utilisateur ne peut pas modifier les mots de passes et pseudos des autres, alors qu'un admin si.
+- Un utilisateur peut récupérer la liste des réservations, créer une réservation, et supprimer ses réservations, alors qu'un admin peut supprimer les réservations de n'importe qui.
+- Un admin peut mettre à jour la disponibilité d'un terrain.
+
 ### Gestion des Réservations
 - Création, suppression et visualisation des réservations.
 - Validation des règles métier (horaires valides, créneaux disponibles, etc.).
@@ -33,12 +38,7 @@ Un jeu de données est directement inséré dans la base de données MySQL, disp
 ### Gestion des Utilisateurs
 - Création, authentification, modification et gestion des droits d'accès.
 
-### Gestion
 
-- Un utilisateur peut créer un utilisateur, modifier son mot de passe, son pseudo, peut s'authentifier et avoir la liste des utilisateurs.
-- Un utilisateur ne peut pas modifier les mots de passes et pseudos des autres, alors qu'un admin si.
-- Un utilisateur peut récupérer la liste des réservations, créer une réservation, et supprimer ses réservations, alors qu'un admin peut supprimer les réservations de n'importe qui.
-- Un admin peut mettre à jour la disponibilité d'un terrain
 ---
 
 ## Installation
