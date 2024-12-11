@@ -89,7 +89,7 @@ Un fichier .json est disponible avec le nom de `swagger_output.json`, qui sert c
 ## Adminer
 
 1. Accéder à l'adminer :
-   [http://localhost:5003/doc](http://localhost:5003)
+   [http://localhost:5003](http://localhost:5003)
 
 > **Remarque :** Le port (`5003`) peut varier en fonction de la configuration dans votre fichier `.env` via la variable `HOST_PORT_ADMINER`. 
 
